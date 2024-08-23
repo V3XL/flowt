@@ -21,6 +21,10 @@ CREATE TABLE ScheduledTasks (
     LastResponseCode INT,
     Priority INT DEFAULT 0,
     TaskGuid CHAR(36) NOT NULL,
-    Headers JSON
+    Headers JSON,
+    RecurrenceType ENUM('None', 'Minute', 'Hour', 'Day', 'Month', 'Year') NOT NULL DEFAULT 'None',
+    RecurrenceInterval INT DEFAULT 0,
+    NextExecutionTime DATETIME
 );
+
 ```
