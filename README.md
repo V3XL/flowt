@@ -2,29 +2,27 @@
 API for scheduling and executing HTTP requests.
 
 
+Create the table
 ```
 CREATE TABLE ScheduledTasks (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
+    TaskGuid CHAR(36) PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
+    IsActive BOOLEAN NOT NULL,
     Url TEXT NOT NULL,
     HttpMethod VARCHAR(10) NOT NULL,
-    Payload TEXT,
-    ScheduleTime DATETIME NOT NULL,
-    IsActive BOOLEAN NOT NULL,
+    Payload TEXT NULL,
+    Headers JSON NULL,
+    Timeout INT DEFAULT 60,
+    RetryMaximum INT DEFAULT 3,
     RetryCount INT DEFAULT 0,
-    RetryInterval INT DEFAULT 0,
-    Timeout INT DEFAULT 30,
-    LastExecutionTime DATETIME,
-    Status VARCHAR(50),
-    LastErrorMessage TEXT,
-    LastResponse TEXT,
-    LastResponseCode INT,
-    Priority INT DEFAULT 0,
-    TaskGuid CHAR(36) NOT NULL,
-    Headers JSON,
-    RecurrenceType ENUM('None', 'Minute', 'Hour', 'Day', 'Month', 'Year') NOT NULL DEFAULT 'None',
+    RetryInterval INT DEFAULT 5,
+    LastResponse TEXT NULL,
+    LastResponseCode INT NULL,
+    ScheduleDateTime DATETIME NOT NULL,
+    LastExecutionTime DATETIME NULL,
+    Status VARCHAR(50) NULL,
+    RecurrenceType VARCHAR(10) NOT NULL DEFAULT 'None',
     RecurrenceInterval INT DEFAULT 0,
-    NextExecutionTime DATETIME
+    NextExecutionTime DATETIME NULL
 );
-
 ```
