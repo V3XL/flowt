@@ -84,4 +84,6 @@ app.MapDelete("/tasks/{taskGuid}", async (Guid taskGuid, ApplicationDbContext db
     return Results.NoContent();
 });
 
+app.Urls.Add("http://*:80");
+
 app.Run();
