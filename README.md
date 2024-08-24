@@ -1,5 +1,5 @@
 # flowt
-Schedule tasks
+API for scheduling and executing HTTP requests.
 
 
 ```
