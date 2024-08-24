@@ -26,3 +26,9 @@ CREATE TABLE ScheduledTasks (
     NextExecutionTime DATETIME NULL
 );
 ```
+
+
+Docker image
+```
+v3xl/flowt
+```
