@@ -52,26 +52,28 @@ app.MapGet("/tasks/{taskGuid}", async (Guid taskGuid, ApplicationDbContext db) =
 });
 
 // Update a task by TaskGuid
+// Update a task by TaskGuid
 app.MapPut("/tasks/{taskGuid}", async (Guid taskGuid, ScheduledTask updatedTask, ApplicationDbContext db) =>
 {
     var task = await db.ScheduledTasks.FindAsync(taskGuid);
     if (task is null) return Results.NotFound();
 
-    // Update task properties
-    task.Name = updatedTask.Name;
-    task.Url = updatedTask.Url;
-    task.HttpMethod = updatedTask.HttpMethod;
-    task.Payload = updatedTask.Payload;
-    task.Headers = updatedTask.Headers;
-    task.ScheduleDateTime = updatedTask.ScheduleDateTime;
-    task.IsActive = updatedTask.IsActive;
-    task.RecurrenceType = updatedTask.RecurrenceType;
-    task.RecurrenceInterval = updatedTask.RecurrenceInterval;
-    task.NextExecutionTime = updatedTask.NextExecutionTime;
+    // Update only the provided fields
+    if (updatedTask.Name != null) task.Name = updatedTask.Name;
+    if (updatedTask.Url != null) task.Url = updatedTask.Url;
+    if (updatedTask.HttpMethod != null) task.HttpMethod = updatedTask.HttpMethod;
+    if (updatedTask.Payload != null) task.Payload = updatedTask.Payload;
+    if (updatedTask.Headers != null) task.Headers = updatedTask.Headers;
+    if (updatedTask.ScheduleDateTime != DateTime.MinValue) task.ScheduleDateTime = updatedTask.ScheduleDateTime;
+    if (updatedTask.IsActive != task.IsActive) task.IsActive = updatedTask.IsActive;
+    if (updatedTask.RecurrenceType != null) task.RecurrenceType = updatedTask.RecurrenceType;
+    if (updatedTask.RecurrenceInterval != null) task.RecurrenceInterval = updatedTask.RecurrenceInterval;
+    if (updatedTask.NextExecutionTime != DateTime.MinValue) task.NextExecutionTime = updatedTask.NextExecutionTime;
 
     await db.SaveChangesAsync();
     return Results.Ok(task);
 });
+
 
 // Delete a task by TaskGuid
 app.MapDelete("/tasks/{taskGuid}", async (Guid taskGuid, ApplicationDbContext db) =>
@@ -83,7 +85,5 @@ app.MapDelete("/tasks/{taskGuid}", async (Guid taskGuid, ApplicationDbContext db
     await db.SaveChangesAsync();
     return Results.NoContent();
 });
-
 app.Urls.Add("http://*:80");
-
 app.Run();
