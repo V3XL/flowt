@@ -20,8 +20,12 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        // Configure the table name
         modelBuilder.Entity<ScheduledTask>()
-            .ToTable("task")  // Specify the table name as 'task'
+            .ToTable("Task");
+
+        modelBuilder.Entity<ScheduledTask>()
             .Property(p => p.Headers)
             .HasConversion(
                 v => JsonConvert.SerializeObject(v),
